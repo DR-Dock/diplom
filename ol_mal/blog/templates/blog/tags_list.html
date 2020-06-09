@@ -1,0 +1,38 @@
+{% extends 'blog/base_blog.html' %}
+
+{% block title %}
+  pdf list - {{block.super}}
+{% endblock %}
+
+{% block content %}
+ <h1 class="mb-5">PDF files:</h1>
+ {% for i in l %}
+	<div class="card mb-4">
+  <div class="card-body">
+    <h5 class="card-title">{{i}}</h5>
+    <a href="{{ i }}" class="btn btn-light">Read</a>
+  </div>
+</div>
+ {%endfor%}
+{% if is_paginated %}
+      <nav aria-label="...">
+  <ul class="pagination">
+    <li class="page-item {% if not prev_url %} disabled {% endif %}">
+      <a class="page-link" href="{{prev_url}}" tabindex="-1" aria-disabled="true">Previous</a>
+    </li>
+    {% for n in l.paginator.page_range %}
+    {% if l.number == n %}
+     <li class="page-item active" aria-current="page">
+      <a class="page-link" href="?page={{n}}"> {{n}} <span class="sr-only">(current)</span></a>
+    </li>
+    {% elif n > l.number|add:-3 and n < l.number|add:3 %}
+    <li class="page-item"><a class="page-link" href="?page={{n}}">{{n}}</a></li>
+    {% endif %}
+    {% endfor %}
+    <li class="page-item {% if not next_url %} disabled {% endif %}">
+      <a class="page-link" href="{{next_url}}" tabindex="-1" aria-disabled="true">Next </a>
+    </li>
+  </ul>
+</nav>
+{% endif %}
+{% endblock %}
